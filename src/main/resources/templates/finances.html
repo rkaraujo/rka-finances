@@ -36,7 +36,7 @@
             </div>
         </div>
 
-        <form action="/finances.html" th:object="${financesForm}" method="post">
+        <form action="/finances.html" method="post">
             <div class="row">
                 <div class="col-xs-6">
                     <h2>Expenses</h2>
@@ -51,15 +51,15 @@
                             <h3>Description</h3>
                         </div>
                     </div>
-                    <div class="row data-line">
+                    <div class="row data-line" th:each="day,status : ${financesForm.expenseDay}">
                         <div class="col-xs-3">
-                            <input type="text" th:field="*{expenseDay}" class="form-control day" />
+                            <input type="text" name="expenseDay" th:value="${day}" class="form-control day" />
                         </div>
                         <div class="col-xs-3">
-                            <input type="text" th:field="*{expenseValue}" class="form-control value"  />
+                            <input type="text" name="expenseValue" th:value="${financesForm.expenseValue[status.index]}" class="form-control value"  />
                         </div>
                         <div class="col-xs-6">
-                            <input type="text" th:field="*{expenseDescription}" class="form-control description"  />
+                            <input type="text" name="expenseDescription" th:value="${financesForm.expenseDescription[status.index]}" class="form-control description"  />
                         </div>
                     </div>
                 </div>
@@ -76,15 +76,15 @@
                             <h3>Description</h3>
                         </div>
                     </div>
-                    <div class="row data-line">
+                    <div class="row data-line" th:each="day,status : ${financesForm.incomeDay}">
                         <div class="col-xs-3">
-                            <input type="text" th:field="*{incomeDay}" class="form-control day" />
+                            <input type="text" name="incomeDay" th:value="${day}" class="form-control day" />
                         </div>
                         <div class="col-xs-3">
-                            <input type="text" th:field="*{incomeValue}" class="form-control value"  />
+                            <input type="text" name="incomeValue" th:value="${financesForm.incomeValue[status.index]}" class="form-control value"  />
                         </div>
                         <div class="col-xs-6">
-                            <input type="text" th:field="*{incomeDescription}" class="form-control description"  />
+                            <input type="text" name="incomeDescription" th:value="${financesForm.incomeDescription[status.index]}" class="form-control description"  />
                         </div>
                     </div>
                 </div>

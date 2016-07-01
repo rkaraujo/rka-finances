@@ -16,7 +16,9 @@ class FinancesController @Autowired constructor(val financialRecordRepository: F
 
     @RequestMapping(value = "/finances.html", method = arrayOf(RequestMethod.GET))
     fun finances(model: Model) : String {
-        model.addAttribute("financesForm", FinancesForm())
+        val financialRecords = financialRecordRepository.findByMonthAndYearOrderByDate(5, 2016)
+        val financesForm = createFinancesForm(financialRecords)
+        model.addAttribute("financesForm", financesForm)
         return "finances"
     }
 
@@ -55,6 +57,23 @@ class FinancesController @Autowired constructor(val financialRecordRepository: F
         }
 
         return financialRecords
+    }
+
+    private fun createFinancesForm(financialRecords: List<FinancialRecord>): FinancesForm {
+        val incomes = financialRecords.filter { it.type == RecordType.INCOME }
+        val expenses = financialRecords.filter { it.type == RecordType.OUTCOME }
+
+        val financesForm = FinancesForm()
+
+        financesForm.expenseDay = IntArray(expenses.size, { i -> expenses.get(i).date.date })
+        financesForm.expenseDescription = Array(expenses.size, { i -> expenses.get(i).description })
+        financesForm.expenseValue = Array(expenses.size, { i -> expenses.get(i).value })
+
+        financesForm.incomeDay = IntArray(incomes.size, { i -> incomes.get(i).date.date })
+        financesForm.incomeDescription = Array(incomes.size, { i -> incomes.get(i).description })
+        financesForm.incomeValue = Array(incomes.size, { i -> incomes.get(i).value })
+
+        return financesForm
     }
 
 }
