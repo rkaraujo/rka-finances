@@ -53,6 +53,7 @@
                     </div>
                     <div class="row data-line" th:each="day,status : ${financesForm.expenseDay}">
                         <div class="col-xs-3">
+                            <input type="hidden" name="expenseId" th:value="${financesForm.expenseId[status.index]}" class="financeId" />
                             <input type="text" name="expenseDay" th:value="${day}" class="form-control day" />
                         </div>
                         <div class="col-xs-3">
@@ -78,6 +79,7 @@
                     </div>
                     <div class="row data-line" th:each="day,status : ${financesForm.incomeDay}">
                         <div class="col-xs-3">
+                            <input type="hidden" name="incomeId" th:value="${financesForm.incomeId[status.index]}" class="financeId" />
                             <input type="text" name="incomeDay" th:value="${day}" class="form-control day" />
                         </div>
                         <div class="col-xs-3">
@@ -105,6 +107,7 @@
         function insertLine(line) {
             var parent = $(line).parents(".data-line").first().parent();
             var dataLine = $(".data-line", parent).last().clone(true);
+            $('.financeId', dataLine).val("0");
             $('.value', dataLine).val("");
             $('.description', dataLine).val("");
             dataLine.appendTo(parent);

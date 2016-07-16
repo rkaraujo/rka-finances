@@ -34,6 +34,7 @@ class FinancesController @Autowired constructor(val financialRecordRepository: F
 
         for (i in financesForm.expenseDay.indices) {
             val expenseRecord = FinancialRecord(
+                    id = financesForm.expenseId[i],
                     date = LocalDate.of(2016, 5, financesForm.expenseDay[i]).toDate(),
                     month = 5,
                     year = 2016,
@@ -46,6 +47,7 @@ class FinancesController @Autowired constructor(val financialRecordRepository: F
 
         for (i in financesForm.incomeDay.indices) {
             val incomeRecord = FinancialRecord(
+                    id = financesForm.incomeId[i],
                     date = LocalDate.of(2016, 5, financesForm.incomeDay[i]).toDate(),
                     month = 5,
                     year = 2016,
@@ -65,10 +67,12 @@ class FinancesController @Autowired constructor(val financialRecordRepository: F
 
         val financesForm = FinancesForm()
 
+        financesForm.expenseId = LongArray(expenses.size, { i -> expenses.get(i).id })
         financesForm.expenseDay = IntArray(expenses.size, { i -> expenses.get(i).date.date })
         financesForm.expenseDescription = Array(expenses.size, { i -> expenses.get(i).description })
         financesForm.expenseValue = Array(expenses.size, { i -> expenses.get(i).value })
 
+        financesForm.incomeId = LongArray(incomes.size, { i -> incomes.get(i).id })
         financesForm.incomeDay = IntArray(incomes.size, { i -> incomes.get(i).date.date })
         financesForm.incomeDescription = Array(incomes.size, { i -> incomes.get(i).description })
         financesForm.incomeValue = Array(incomes.size, { i -> incomes.get(i).value })
